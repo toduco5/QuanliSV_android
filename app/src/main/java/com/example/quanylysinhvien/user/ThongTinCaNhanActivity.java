@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quanylysinhvien.R;
+import com.example.quanylysinhvien.dao.DaoTaiKhoan;
 import com.example.quanylysinhvien.database.DBHelper;
 
 public class ThongTinCaNhanActivity extends AppCompatActivity {
@@ -16,7 +17,10 @@ public class ThongTinCaNhanActivity extends AppCompatActivity {
     TextView tvTaiKhoan, tvMaSV, tvHoTen, tvEmail, tvLop, tvNganh;
 
     DBHelper dbHelper;
+    DaoTaiKhoan daoTaiKhoan;
+
     String tenDangNhap;
+    String maSv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +30,16 @@ public class ThongTinCaNhanActivity extends AppCompatActivity {
         anhXa();
 
         dbHelper = new DBHelper(this);
+        daoTaiKhoan = new DaoTaiKhoan(this);
 
         tenDangNhap = getIntent().getStringExtra("tenDangNhap");
         if (tenDangNhap == null) {
             tenDangNhap = "";
+        }
+
+        maSv = getIntent().getStringExtra("maSv");
+        if (maSv == null || maSv.trim().isEmpty()) {
+            maSv = daoTaiKhoan.getMaSvTheoTaiKhoan(tenDangNhap);
         }
 
         hienThiThongTin();
@@ -47,11 +57,21 @@ public class ThongTinCaNhanActivity extends AppCompatActivity {
     private void hienThiThongTin() {
         tvTaiKhoan.setText("Tài khoản: " + tenDangNhap);
 
+        if (maSv == null || maSv.trim().isEmpty()) {
+            hienThiKhongCoDuLieu();
+            Toast.makeText(this, "Tài khoản này chưa được gán sinh viên", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor c = db.rawQuery(
-                "SELECT maSv, tenSV, email, maLop, maNganh FROM SINHVIEN WHERE email LIKE ? OR maSv = ?",
-                new String[]{"%" + tenDangNhap + "%", tenDangNhap}
+                "SELECT SINHVIEN.maSv, SINHVIEN.tenSV, SINHVIEN.email, LOP.tenLop, NGANH.tenNganh " +
+                        "FROM SINHVIEN " +
+                        "INNER JOIN LOP ON SINHVIEN.maLop = LOP.maLop " +
+                        "INNER JOIN NGANH ON SINHVIEN.maNganh = NGANH.maNganh " +
+                        "WHERE SINHVIEN.maSv = ?",
+                new String[]{maSv}
         );
 
         if (c.moveToFirst()) {
@@ -67,16 +87,19 @@ public class ThongTinCaNhanActivity extends AppCompatActivity {
             tvLop.setText("Lớp: " + lop);
             tvNganh.setText("Ngành: " + nganh);
         } else {
-            tvMaSV.setText("Mã sinh viên: Chưa có dữ liệu");
-            tvHoTen.setText("Họ tên: Chưa có dữ liệu");
-            tvEmail.setText("Email: Chưa có dữ liệu");
-            tvLop.setText("Lớp: Chưa có dữ liệu");
-            tvNganh.setText("Ngành: Chưa có dữ liệu");
-
+            hienThiKhongCoDuLieu();
             Toast.makeText(this, "Chưa tìm thấy thông tin cá nhân", Toast.LENGTH_SHORT).show();
         }
 
         c.close();
         db.close();
+    }
+
+    private void hienThiKhongCoDuLieu() {
+        tvMaSV.setText("Mã sinh viên: Chưa có dữ liệu");
+        tvHoTen.setText("Họ tên: Chưa có dữ liệu");
+        tvEmail.setText("Email: Chưa có dữ liệu");
+        tvLop.setText("Lớp: Chưa có dữ liệu");
+        tvNganh.setText("Ngành: Chưa có dữ liệu");
     }
 }

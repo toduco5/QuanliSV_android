@@ -3,17 +3,23 @@ package com.example.quanylysinhvien.admin;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.widget.AdapterView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quanylysinhvien.R;
-import com.example.quanylysinhvien.database.DBHelper;
+import com.example.quanylysinhvien.dao.DaoTaiKhoan;
+import com.example.quanylysinhvien.dao.SinhVienDao;
+import com.example.quanylysinhvien.model.TaikhoanMatKhau;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,9 +27,11 @@ import java.util.HashMap;
 public class QuanLyTaiKhoanActivity extends AppCompatActivity {
 
     TextView tvTitleTaiKhoan, tvThongBaoTaiKhoan;
+    Button btnThemTaiKhoan;
     ListView lvTaiKhoan;
 
-    DBHelper dbHelper;
+    DaoTaiKhoan daoTaiKhoan;
+    SinhVienDao sinhVienDao;
 
     ArrayList<HashMap<String, String>> list;
     SimpleAdapter adapter;
@@ -36,10 +44,12 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quan_ly_tai_khoan);
 
         anhXa();
-
-        dbHelper = new DBHelper(this);
+        daoTaiKhoan = new DaoTaiKhoan(this);
+        sinhVienDao = new SinhVienDao(this);
 
         loadTaiKhoan();
+
+        btnThemTaiKhoan.setOnClickListener(v -> showDialogThemTaiKhoan());
 
         lvTaiKhoan.setOnItemClickListener((parent, view, position, id) -> {
             tenTaiKhoanChon = list.get(position).get("tkRaw");
@@ -50,41 +60,23 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
     private void anhXa() {
         tvTitleTaiKhoan = findViewById(R.id.tvTitleTaiKhoan);
         tvThongBaoTaiKhoan = findViewById(R.id.tvThongBaoTaiKhoan);
+        btnThemTaiKhoan = findViewById(R.id.btnThemTaiKhoan);
         lvTaiKhoan = findViewById(R.id.lvTaiKhoan);
     }
 
     private void loadTaiKhoan() {
-
         list = new ArrayList<>();
+        ArrayList<TaikhoanMatKhau> dsTaiKhoan = daoTaiKhoan.getAll();
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        Cursor c = db.rawQuery("SELECT tenTaiKhoan, matKhau FROM taiKhoan", null);
-
-        if (c.moveToFirst()) {
-            do {
-                HashMap<String, String> map = new HashMap<>();
-
-                String tk = c.getString(0);
-                String mk = c.getString(1);
-
-                map.put("tkRaw", tk);
-                map.put("tenTaiKhoan", "Tài khoản: " + tk);
-                map.put("matKhau", "Mật khẩu: " + mk);
-
-                if (tk.equalsIgnoreCase("admin")) {
-                    map.put("vaiTro", "Vai trò: Quản trị viên");
-                } else {
-                    map.put("vaiTro", "Vai trò: Người dùng");
-                }
-
-                list.add(map);
-
-            } while (c.moveToNext());
+        for (TaikhoanMatKhau tk : dsTaiKhoan) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("tkRaw", tk.getTenTaiKhoan());
+            map.put("tenTaiKhoan", "Tài khoản: " + tk.getTenTaiKhoan());
+            map.put("matKhau", "Mật khẩu: " + tk.getMatKhau());
+            map.put("vaiTro", "Vai trò: " + tk.getVaiTro());
+            map.put("maSv", "Mã SV: " + (tk.getMaSv() == null ? "Chưa gán" : tk.getMaSv()));
+            list.add(map);
         }
-
-        c.close();
-        db.close();
 
         tvThongBaoTaiKhoan.setText("Tổng tài khoản: " + list.size());
 
@@ -92,51 +84,209 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
                 this,
                 list,
                 R.layout.dong_tai_khoan,
-                new String[]{"tenTaiKhoan", "matKhau", "vaiTro"},
-                new int[]{R.id.tvTenTaiKhoan, R.id.tvMatKhau, R.id.tvVaiTro}
+                new String[]{"tenTaiKhoan", "matKhau", "vaiTro", "maSv"},
+                new int[]{R.id.tvTenTaiKhoan, R.id.tvMatKhau, R.id.tvVaiTro, R.id.tvMaSvTaiKhoan}
         );
 
         lvTaiKhoan.setAdapter(adapter);
     }
 
     private void xuLyChonTaiKhoan() {
+        String[] chucNang;
 
         if (tenTaiKhoanChon.equalsIgnoreCase("admin")) {
-            Toast.makeText(this, "Không thể xóa tài khoản admin", Toast.LENGTH_SHORT).show();
+            chucNang = new String[]{"Sửa tài khoản", "Đặt lại mật khẩu = 123"};
+        } else {
+            chucNang = new String[]{"Sửa tài khoản", "Xóa tài khoản", "Đặt lại mật khẩu = 123"};
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Chọn chức năng")
+                .setItems(chucNang, (dialog, which) -> {
+                    if (tenTaiKhoanChon.equalsIgnoreCase("admin")) {
+                        if (which == 0) showDialogSuaTaiKhoan(tenTaiKhoanChon);
+                        else resetMatKhau();
+                    } else {
+                        if (which == 0) showDialogSuaTaiKhoan(tenTaiKhoanChon);
+                        else if (which == 1) xoaTaiKhoan();
+                        else resetMatKhau();
+                    }
+                })
+                .show();
+    }
+
+    private void showDialogThemTaiKhoan() {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_tai_khoan, null);
+
+        EditText edtTenTaiKhoan = view.findViewById(R.id.edtTenTaiKhoan);
+        EditText edtMatKhau = view.findViewById(R.id.edtMatKhau);
+        Spinner spVaiTro = view.findViewById(R.id.spVaiTro);
+        Spinner spSinhVien = view.findViewById(R.id.spSinhVien);
+
+        ArrayAdapter<String> vaiTroAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, new String[]{"ADMIN", "USER"});
+        vaiTroAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spVaiTro.setAdapter(vaiTroAdapter);
+
+        ArrayList<String> dsSV = new ArrayList<>();
+        dsSV.add("Không gán");
+        dsSV.addAll(sinhVienDao.getDanhSachSpinner());
+
+        ArrayAdapter<String> svAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, dsSV);
+        svAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spSinhVien.setAdapter(svAdapter);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Thêm tài khoản")
+                .setView(view)
+                .setPositiveButton("Thêm", null)
+                .setNegativeButton("Hủy", null)
+                .create();
+
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String tenTaiKhoan = edtTenTaiKhoan.getText().toString().trim();
+            String matKhau = edtMatKhau.getText().toString().trim();
+            String vaiTro = spVaiTro.getSelectedItem().toString();
+
+            String maSv = null;
+            String sinhVienChon = spSinhVien.getSelectedItem().toString();
+            if (!"Không gán".equals(sinhVienChon)) {
+                maSv = sinhVienChon.split(" - ")[0];
+            }
+
+            if (TextUtils.isEmpty(tenTaiKhoan) || TextUtils.isEmpty(matKhau)) {
+                Toast.makeText(this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (daoTaiKhoan.kiemTraTonTai(tenTaiKhoan)) {
+                Toast.makeText(this, "Tài khoản đã tồn tại", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if ("USER".equals(vaiTro) && maSv == null) {
+                Toast.makeText(this, "Tài khoản USER phải gán sinh viên", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if ("ADMIN".equals(vaiTro)) {
+                maSv = null;
+            }
+
+            boolean kq = daoTaiKhoan.them(new TaikhoanMatKhau(tenTaiKhoan, matKhau, vaiTro, maSv));
+
+            if (kq) {
+                Toast.makeText(this, "Thêm tài khoản thành công", Toast.LENGTH_SHORT).show();
+                loadTaiKhoan();
+                dialog.dismiss();
+            } else {
+                Toast.makeText(this, "Thêm tài khoản thất bại", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showDialogSuaTaiKhoan(String tenTaiKhoan) {
+        TaikhoanMatKhau tk = daoTaiKhoan.getTaiKhoan(tenTaiKhoan);
+        if (tk == null) {
+            Toast.makeText(this, "Không tìm thấy tài khoản", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String[] chucNang = {"Xóa tài khoản", "Đặt lại mật khẩu = 123"};
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_tai_khoan, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Chọn chức năng");
+        EditText edtTenTaiKhoan = view.findViewById(R.id.edtTenTaiKhoan);
+        EditText edtMatKhau = view.findViewById(R.id.edtMatKhau);
+        Spinner spVaiTro = view.findViewById(R.id.spVaiTro);
+        Spinner spSinhVien = view.findViewById(R.id.spSinhVien);
 
-        builder.setItems(chucNang, (dialog, which) -> {
+        edtTenTaiKhoan.setText(tk.getTenTaiKhoan());
+        edtTenTaiKhoan.setEnabled(false);
+        edtMatKhau.setText(tk.getMatKhau());
 
-            if (which == 0) {
-                xoaTaiKhoan();
-            } else {
-                resetMatKhau();
+        ArrayAdapter<String> vaiTroAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, new String[]{"ADMIN", "USER"});
+        vaiTroAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spVaiTro.setAdapter(vaiTroAdapter);
+        spVaiTro.setSelection("ADMIN".equalsIgnoreCase(tk.getVaiTro()) ? 0 : 1);
+
+        ArrayList<String> dsSV = new ArrayList<>();
+        dsSV.add("Không gán");
+        dsSV.addAll(sinhVienDao.getDanhSachSpinner());
+
+        ArrayAdapter<String> svAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, dsSV);
+        svAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spSinhVien.setAdapter(svAdapter);
+
+        if (tk.getMaSv() == null) {
+            spSinhVien.setSelection(0);
+        } else {
+            for (int i = 0; i < dsSV.size(); i++) {
+                if (dsSV.get(i).startsWith(tk.getMaSv() + " - ")) {
+                    spSinhVien.setSelection(i);
+                    break;
+                }
+            }
+        }
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Sửa tài khoản")
+                .setView(view)
+                .setPositiveButton("Lưu", null)
+                .setNegativeButton("Hủy", null)
+                .create();
+
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String matKhauMoi = edtMatKhau.getText().toString().trim();
+            String vaiTroMoi = spVaiTro.getSelectedItem().toString();
+
+            String maSvMoi = null;
+            String sinhVienChon = spSinhVien.getSelectedItem().toString();
+            if (!"Không gán".equals(sinhVienChon)) {
+                maSvMoi = sinhVienChon.split(" - ")[0];
             }
 
-        });
+            if (TextUtils.isEmpty(matKhauMoi)) {
+                Toast.makeText(this, "Mật khẩu không được để trống", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        builder.show();
+            if ("USER".equals(vaiTroMoi) && maSvMoi == null) {
+                Toast.makeText(this, "Tài khoản USER phải gán sinh viên", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if ("ADMIN".equals(vaiTroMoi)) {
+                maSvMoi = null;
+            }
+
+            TaikhoanMatKhau tkMoi = new TaikhoanMatKhau(
+                    tk.getTenTaiKhoan(),
+                    matKhauMoi,
+                    vaiTroMoi,
+                    maSvMoi
+            );
+
+            boolean kq = daoTaiKhoan.sua(tkMoi);
+
+            if (kq) {
+                Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                loadTaiKhoan();
+                dialog.dismiss();
+            } else {
+                Toast.makeText(this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void xoaTaiKhoan() {
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        int kq = db.delete(
-                "taiKhoan",
-                "tenTaiKhoan=?",
-                new String[]{tenTaiKhoanChon}
-        );
-
-        db.close();
-
-        if (kq > 0) {
+        boolean kq = daoTaiKhoan.xoaTaiKhoan(tenTaiKhoanChon);
+        if (kq) {
             Toast.makeText(this, "Xóa thành công", Toast.LENGTH_SHORT).show();
             loadTaiKhoan();
         } else {
@@ -145,22 +295,8 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
     }
 
     private void resetMatKhau() {
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        android.content.ContentValues values = new android.content.ContentValues();
-        values.put("matKhau", "123");
-
-        int kq = db.update(
-                "taiKhoan",
-                values,
-                "tenTaiKhoan=?",
-                new String[]{tenTaiKhoanChon}
-        );
-
-        db.close();
-
-        if (kq > 0) {
+        boolean kq = daoTaiKhoan.doiMatKhau(tenTaiKhoanChon, "123");
+        if (kq) {
             Toast.makeText(this, "Đặt lại mật khẩu thành 123", Toast.LENGTH_SHORT).show();
             loadTaiKhoan();
         } else {

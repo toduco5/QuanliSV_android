@@ -2,21 +2,22 @@ package com.example.quanylysinhvien.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quanylysinhvien.R;
-import com.example.quanylysinhvien.dao.LopDao;
+import com.example.quanylysinhvien.dao.LopDAO;
+import com.example.quanylysinhvien.dao.NganhDAO;
 import com.example.quanylysinhvien.model.Lop;
 
 import java.util.ArrayList;
@@ -26,16 +27,21 @@ public class LopAdapter extends BaseAdapter implements Filterable {
 
     private Activity activity;
     private int layout;
+
     private ArrayList<Lop> list;
     private ArrayList<Lop> listOld;
-    private LopDao lopDao;
+
+    private LopDAO lopDAO;
+    private NganhDAO nganhDAO;
 
     public LopAdapter(Activity activity, int layout, ArrayList<Lop> list) {
         this.activity = activity;
         this.layout = layout;
         this.list = list;
         this.listOld = new ArrayList<>(list);
-        this.lopDao = new LopDao(activity);
+
+        lopDAO = new LopDAO(activity);
+        nganhDAO = new NganhDAO(activity);
     }
 
     @Override
@@ -54,7 +60,7 @@ public class LopAdapter extends BaseAdapter implements Filterable {
     }
 
     static class ViewHolder {
-        TextView txtMaLopHoc, txtTenLopHoc;
+        TextView txtMaLopHoc, txtTenLopHoc, txtMonHocLop;
         ImageView imageView, imageEdit, imageDelete;
     }
 
@@ -64,6 +70,7 @@ public class LopAdapter extends BaseAdapter implements Filterable {
         ViewHolder holder;
 
         if (convertView == null) {
+
             holder = new ViewHolder();
 
             convertView = LayoutInflater.from(activity)
@@ -71,6 +78,8 @@ public class LopAdapter extends BaseAdapter implements Filterable {
 
             holder.txtMaLopHoc = convertView.findViewById(R.id.txtMaLophoc);
             holder.txtTenLopHoc = convertView.findViewById(R.id.txtTenLophoc);
+            holder.txtMonHocLop = convertView.findViewById(R.id.txtMonHocLop);
+
             holder.imageView = convertView.findViewById(R.id.imageView);
             holder.imageEdit = convertView.findViewById(R.id.imageeditlop);
             holder.imageDelete = convertView.findViewById(R.id.imageViewdeletelop);
@@ -83,13 +92,13 @@ public class LopAdapter extends BaseAdapter implements Filterable {
 
         Lop lop = list.get(position);
 
-        holder.txtMaLopHoc.setText(lop.getMaLop());
-        holder.txtTenLopHoc.setText(lop.getTenLop());
+        holder.txtMaLopHoc.setText("Mã lớp: " + lop.getMaLop());
+        holder.txtTenLopHoc.setText("Tên lớp: " + lop.getTenLop());
+        holder.txtMonHocLop.setText("Môn học: " + lopDAO.getChuoiMonHocTheoLop(lop.getMaLop()));
 
         holder.imageView.setImageResource(R.drawable.logoqnu);
 
         holder.imageEdit.setOnClickListener(v -> showDialogSua(lop));
-
         holder.imageDelete.setOnClickListener(v -> xoaLop(lop));
 
         return convertView;
@@ -102,11 +111,30 @@ public class LopAdapter extends BaseAdapter implements Filterable {
 
         EditText edtMaLop = view.findViewById(R.id.edtMaLopSua);
         EditText edtTenLop = view.findViewById(R.id.edtTenLopSua);
+        Spinner spNganh = view.findViewById(R.id.spNganhSua);
 
         edtMaLop.setText(lop.getMaLop());
         edtTenLop.setText(lop.getTenLop());
 
         edtMaLop.setEnabled(false);
+
+        ArrayList<String> dsNganh = nganhDAO.getDanhSachSpinner();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                activity,
+                android.R.layout.simple_spinner_item,
+                dsNganh
+        );
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spNganh.setAdapter(adapter);
+
+        for (int i = 0; i < dsNganh.size(); i++) {
+            if (dsNganh.get(i).startsWith(lop.getMaNganh() + " - ")) {
+                spNganh.setSelection(i);
+                break;
+            }
+        }
 
         AlertDialog dialog = new AlertDialog.Builder(activity)
                 .setTitle("Sửa lớp học")
@@ -120,9 +148,7 @@ public class LopAdapter extends BaseAdapter implements Filterable {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener(v -> {
 
-                    String tenMoi = edtTenLop.getText()
-                            .toString()
-                            .trim();
+                    String tenMoi = edtTenLop.getText().toString().trim();
 
                     if (tenMoi.isEmpty()) {
                         edtTenLop.setError("Nhập tên lớp");
@@ -130,26 +156,26 @@ public class LopAdapter extends BaseAdapter implements Filterable {
                         return;
                     }
 
+                    String maNganh = spNganh.getSelectedItem().toString().split(" - ")[0];
+
                     Lop lopMoi = new Lop(
                             lop.getMaLop(),
-                            tenMoi
+                            tenMoi,
+                            maNganh
                     );
 
-                    if (lopDao.update(lopMoi)) {
+                    if (lopDAO.update(lopMoi)) {
 
                         lop.setTenLop(tenMoi);
+                        lop.setMaNganh(maNganh);
+
                         notifyDataSetChanged();
 
-                        Toast.makeText(activity,
-                                "Sửa thành công",
-                                Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(activity, "Sửa thành công", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
 
                     } else {
-                        Toast.makeText(activity,
-                                "Sửa thất bại",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Sửa thất bại", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -161,21 +187,17 @@ public class LopAdapter extends BaseAdapter implements Filterable {
                 .setMessage("Bạn có chắc muốn xóa " + lop.getMaLop() + " ?")
                 .setPositiveButton("Xóa", (dialog, which) -> {
 
-                    if (lopDao.delete(lop.getMaLop())) {
+                    if (lopDAO.delete(lop.getMaLop())) {
 
                         list.remove(lop);
                         listOld.remove(lop);
 
                         notifyDataSetChanged();
 
-                        Toast.makeText(activity,
-                                "Xóa thành công",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Xóa thành công", Toast.LENGTH_SHORT).show();
 
                     } else {
-                        Toast.makeText(activity,
-                                "Xóa thất bại",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Xóa thất bại", Toast.LENGTH_SHORT).show();
                     }
 
                 })
@@ -202,10 +224,9 @@ public class LopAdapter extends BaseAdapter implements Filterable {
             } else {
 
                 for (Lop lop : listOld) {
-
                     if (lop.getMaLop().toLowerCase().contains(key)
-                            || lop.getTenLop().toLowerCase().contains(key)) {
-
+                            || lop.getTenLop().toLowerCase().contains(key)
+                            || lop.getMaNganh().toLowerCase().contains(key)) {
                         newList.add(lop);
                     }
                 }
@@ -213,14 +234,11 @@ public class LopAdapter extends BaseAdapter implements Filterable {
 
             FilterResults results = new FilterResults();
             results.values = newList;
-
             return results;
         }
 
         @Override
-        protected void publishResults(CharSequence constraint,
-                                      FilterResults results) {
-
+        protected void publishResults(CharSequence constraint, FilterResults results) {
             list.clear();
             list.addAll((List<Lop>) results.values);
             notifyDataSetChanged();

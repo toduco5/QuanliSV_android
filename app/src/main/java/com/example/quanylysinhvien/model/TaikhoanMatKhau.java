@@ -1,16 +1,19 @@
 package com.example.quanylysinhvien.model;
 
 public class TaikhoanMatKhau {
-
     private String tenTaiKhoan;
     private String matKhau;
+    private String vaiTro;
+    private String maSv;
 
     public TaikhoanMatKhau() {
     }
 
-    public TaikhoanMatKhau(String tenTaiKhoan, String matKhau) {
+    public TaikhoanMatKhau(String tenTaiKhoan, String matKhau, String vaiTro, String maSv) {
         this.tenTaiKhoan = tenTaiKhoan;
         this.matKhau = matKhau;
+        this.vaiTro = vaiTro;
+        this.maSv = maSv;
     }
 
     public String getTenTaiKhoan() {
@@ -29,8 +32,19 @@ public class TaikhoanMatKhau {
         this.matKhau = matKhau;
     }
 
-    @Override
-    public String toString() {
-        return tenTaiKhoan;
+    public String getVaiTro() {
+        return vaiTro;
+    }
+
+    public void setVaiTro(String vaiTro) {
+        this.vaiTro = vaiTro;
+    }
+
+    public String getMaSv() {
+        return maSv;
+    }
+
+    public void setMaSv(String maSv) {
+        this.maSv = maSv;
     }
 }

@@ -25,10 +25,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         anhXa();
-
         daoTaiKhoan = new DaoTaiKhoan(this);
 
-        // Nếu quay lại từ màn hình đăng ký thì nhận dữ liệu
         Intent intentNhan = getIntent();
         if (intentNhan != null) {
             String tk = intentNhan.getStringExtra("taikhoan");
@@ -70,22 +68,28 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         boolean check = daoTaiKhoan.kiemTraDangNhap(tenDangNhap, matKhau);
-
         if (!check) {
             Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        String vaiTro = daoTaiKhoan.getVaiTro(tenDangNhap);
+        String maSv = daoTaiKhoan.getMaSvTheoTaiKhoan(tenDangNhap);
+
         Intent intent;
-        if (tenDangNhap.equalsIgnoreCase("admin")) {
+
+        if ("ADMIN".equalsIgnoreCase(vaiTro)) {
             intent = new Intent(LoginActivity.this, ManagerActivity.class);
             intent.putExtra("quyen", "admin");
         } else {
             intent = new Intent(LoginActivity.this, UserActivity.class);
             intent.putExtra("quyen", "user");
+            intent.putExtra("maSv", maSv);
         }
 
         intent.putExtra("tenDangNhap", tenDangNhap);
+        intent.putExtra("vaiTro", vaiTro);
+
         startActivity(intent);
         finish();
     }

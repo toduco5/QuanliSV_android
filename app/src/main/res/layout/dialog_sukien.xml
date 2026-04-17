@@ -6,25 +6,29 @@
     android:padding="20dp">
 
     <EditText
-        android:id="@+id/edtMaLopSua"
+        android:id="@+id/edtMaSk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mã lớp"
-        android:enabled="false"
-        android:minHeight="48dp" />
+        android:hint="Mã sự kiện"/>
 
     <EditText
-        android:id="@+id/edtTenLopSua"
+        android:id="@+id/edtTenSk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Tên lớp"
-        android:layout_marginTop="12dp"
-        android:minHeight="48dp" />
+        android:hint="Tên sự kiện"
+        android:layout_marginTop="12dp"/>
 
-    <Spinner
-        android:id="@+id/spNganhSua"
+    <EditText
+        android:id="@+id/edtNgaySk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" />
+        android:hint="Ngày sự kiện"
+        android:layout_marginTop="12dp"/>
 
+    <EditText
+        android:id="@+id/edtNoiDungSk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nội dung"
+        android:layout_marginTop="12dp"/>
 </LinearLayout>

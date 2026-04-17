@@ -4,14 +4,16 @@ public class MonHoc {
     private String maMon;
     private String tenMon;
     private int soTinChi;
+    private String maNganh;
 
     public MonHoc() {
     }
 
-    public MonHoc(String maMon, String tenMon, int soTinChi) {
+    public MonHoc(String maMon, String tenMon, int soTinChi, String maNganh) {
         this.maMon = maMon;
         this.tenMon = tenMon;
         this.soTinChi = soTinChi;
+        this.maNganh = maNganh;
     }
 
     public String getMaMon() {
@@ -36,5 +38,13 @@ public class MonHoc {
 
     public void setSoTinChi(int soTinChi) {
         this.soTinChi = soTinChi;
+    }
+
+    public String getMaNganh() {
+        return maNganh;
+    }
+
+    public void setMaNganh(String maNganh) {
+        this.maNganh = maNganh;
     }
 }

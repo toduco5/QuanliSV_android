@@ -1,14 +1,17 @@
 package com.example.quanylysinhvien.model;
 
-import androidx.annotation.NonNull;
-
 public class Lop {
     private String maLop;
     private String tenLop;
+    private String maNganh;
 
-    public Lop(String maLop, String tenLop) {
+    public Lop() {
+    }
+
+    public Lop(String maLop, String tenLop, String maNganh) {
         this.maLop = maLop;
         this.tenLop = tenLop;
+        this.maNganh = maNganh;
     }
 
     public String getMaLop() {
@@ -27,9 +30,11 @@ public class Lop {
         this.tenLop = tenLop;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return getMaLop();
+    public String getMaNganh() {
+        return maNganh;
+    }
+
+    public void setMaNganh(String maNganh) {
+        this.maNganh = maNganh;
     }
 }

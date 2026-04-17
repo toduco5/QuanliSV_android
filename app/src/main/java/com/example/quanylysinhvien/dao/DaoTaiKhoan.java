@@ -18,17 +18,21 @@ public class DaoTaiKhoan {
         dbHelper = new DBHelper(context);
     }
 
-    // Lấy toàn bộ tài khoản
     public ArrayList<TaikhoanMatKhau> getAll() {
         ArrayList<TaikhoanMatKhau> list = new ArrayList<>();
-
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM taiKhoan", null);
 
-        while (c.moveToNext()) {
-            String tenTaiKhoan = c.getString(0);
-            String matKhau = c.getString(1);
-            list.add(new TaikhoanMatKhau(tenTaiKhoan, matKhau));
+        Cursor c = db.rawQuery("SELECT tenTaiKhoan, matKhau, vaiTro, maSv FROM taiKhoan", null);
+
+        if (c.moveToFirst()) {
+            do {
+                list.add(new TaikhoanMatKhau(
+                        c.getString(0),
+                        c.getString(1),
+                        c.getString(2),
+                        c.getString(3)
+                ));
+            } while (c.moveToNext());
         }
 
         c.close();
@@ -36,26 +40,43 @@ public class DaoTaiKhoan {
         return list;
     }
 
-    // Thêm tài khoản
     public boolean them(TaikhoanMatKhau tk) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put("tenTaiKhoan", tk.getTenTaiKhoan());
         values.put("matKhau", tk.getMatKhau());
+        values.put("vaiTro", tk.getVaiTro());
+        values.put("maSv", tk.getMaSv());
 
         long kq = db.insert("taiKhoan", null, values);
-
         db.close();
         return kq != -1;
     }
 
-    // Giữ tên hàm cũ nếu project cũ đang gọi
     public boolean Them(TaikhoanMatKhau tk) {
         return them(tk);
     }
 
-    // Kiểm tra đăng nhập
+    public boolean sua(TaikhoanMatKhau tk) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("matKhau", tk.getMatKhau());
+        values.put("vaiTro", tk.getVaiTro());
+        values.put("maSv", tk.getMaSv());
+
+        int kq = db.update(
+                "taiKhoan",
+                values,
+                "tenTaiKhoan=?",
+                new String[]{tk.getTenTaiKhoan()}
+        );
+
+        db.close();
+        return kq > 0;
+    }
+
     public boolean kiemTraDangNhap(String tenTaiKhoan, String matKhau) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -71,7 +92,42 @@ public class DaoTaiKhoan {
         return check;
     }
 
-    // Kiểm tra tài khoản đã tồn tại chưa
+    public String getVaiTro(String tenTaiKhoan) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor c = db.rawQuery(
+                "SELECT vaiTro FROM taiKhoan WHERE tenTaiKhoan=?",
+                new String[]{tenTaiKhoan}
+        );
+
+        String vaiTro = "";
+        if (c.moveToFirst()) {
+            vaiTro = c.getString(0);
+        }
+
+        c.close();
+        db.close();
+        return vaiTro;
+    }
+
+    public String getMaSvTheoTaiKhoan(String tenTaiKhoan) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor c = db.rawQuery(
+                "SELECT maSv FROM taiKhoan WHERE tenTaiKhoan=?",
+                new String[]{tenTaiKhoan}
+        );
+
+        String maSv = null;
+        if (c.moveToFirst()) {
+            maSv = c.getString(0);
+        }
+
+        c.close();
+        db.close();
+        return maSv;
+    }
+
     public boolean kiemTraTonTai(String tenTaiKhoan) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -87,26 +143,25 @@ public class DaoTaiKhoan {
         return check;
     }
 
-    // Tên hàm này để tương thích với RegisterActivity cũ
     public boolean kiemTraTonTaiTaiKhoan(String tenTaiKhoan) {
         return kiemTraTonTai(tenTaiKhoan);
     }
 
-    // Lấy 1 tài khoản theo tên
     public TaikhoanMatKhau getTaiKhoan(String tenTaiKhoan) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor c = db.rawQuery(
-                "SELECT * FROM taiKhoan WHERE tenTaiKhoan=?",
+                "SELECT tenTaiKhoan, matKhau, vaiTro, maSv FROM taiKhoan WHERE tenTaiKhoan=?",
                 new String[]{tenTaiKhoan}
         );
 
         TaikhoanMatKhau tk = null;
-
         if (c.moveToFirst()) {
             tk = new TaikhoanMatKhau(
                     c.getString(0),
-                    c.getString(1)
+                    c.getString(1),
+                    c.getString(2),
+                    c.getString(3)
             );
         }
 
@@ -115,7 +170,6 @@ public class DaoTaiKhoan {
         return tk;
     }
 
-    // Đổi mật khẩu
     public boolean doiMatKhau(String tenTaiKhoan, String matKhauMoi) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -133,7 +187,6 @@ public class DaoTaiKhoan {
         return kq > 0;
     }
 
-    // Xóa tài khoản
     public boolean xoaTaiKhoan(String tenTaiKhoan) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 

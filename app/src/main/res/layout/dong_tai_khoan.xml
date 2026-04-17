@@ -3,48 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="6dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    app:cardUseCompatPadding="true">
+    app:cardElevation="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="12dp">
 
-        <!-- Tên tài khoản -->
         <TextView
             android:id="@+id/tvTenTaiKhoan"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tài khoản: admin"
-            android:textSize="18sp"
+            android:text="Tài khoản"
             android:textStyle="bold"
-            android:textColor="#000000" />
+            android:textSize="16sp" />
 
-        <!-- Mật khẩu -->
         <TextView
             android:id="@+id/tvMatKhau"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mật khẩu: admin"
-            android:textSize="15sp"
-            android:textColor="#555555"
-            android:layout_marginTop="6dp" />
+            android:text="Mật khẩu"
+            android:layout_marginTop="4dp" />
 
-        <!-- Vai trò -->
         <TextView
             android:id="@+id/tvVaiTro"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vai trò: Quản trị viên"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#1565C0"
-            android:layout_marginTop="6dp" />
+            android:text="Vai trò"
+            android:layout_marginTop="4dp" />
 
+        <TextView
+            android:id="@+id/tvMaSvTaiKhoan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mã SV"
+            android:layout_marginTop="4dp" />
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

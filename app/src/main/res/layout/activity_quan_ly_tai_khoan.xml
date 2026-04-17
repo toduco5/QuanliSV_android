@@ -3,37 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F6FA"
-    android:padding="12dp">
+    android:padding="12dp"
+    android:background="#F5F7FB">
 
-    <!-- Tiêu đề -->
     <TextView
         android:id="@+id/tvTitleTaiKhoan"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quản Lý Tài Khoản"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="#000000"
-        android:gravity="center"
-        android:layout_marginBottom="10dp" />
+        android:textColor="#222222" />
 
-    <!-- Thông báo -->
     <TextView
         android:id="@+id/tvThongBaoTaiKhoan"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tổng tài khoản: 0"
-        android:textSize="16sp"
-        android:textColor="#444444"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="10dp" />
 
-    <!-- Danh sách tài khoản -->
+    <Button
+        android:id="@+id/btnThemTaiKhoan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="THÊM TÀI KHOẢN"
+        android:backgroundTint="#3F51B5"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="10dp" />
+
     <ListView
         android:id="@+id/lvTaiKhoan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#DDDDDD"
-        android:dividerHeight="1dp" />
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp" />
 
 </LinearLayout>

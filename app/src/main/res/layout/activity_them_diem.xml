@@ -3,33 +3,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:background="#F5F6FA">
 
-    <EditText
-        android:id="@+id/edtMaSv"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thêm điểm"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#222222"
+        android:layout_marginBottom="14dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chọn sinh viên"
+        android:textStyle="bold"
+        android:textSize="15sp" />
+
+    <Spinner
+        android:id="@+id/spSinhVien"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mã sinh viên"/>
+        android:layout_marginTop="6dp" />
 
-    <EditText
-        android:id="@+id/edtMaMon"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chọn môn học"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_marginTop="12dp" />
+
+    <Spinner
+        android:id="@+id/spMaMon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mã môn"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="6dp" />
 
     <EditText
         android:id="@+id/edtDiem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Điểm"
+        android:hint="Nhập điểm"
         android:inputType="numberDecimal"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp"
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/btnThemDiem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thêm điểm"
-        android:layout_marginTop="16dp"/>
+        android:text="THÊM ĐIỂM"
+        android:layout_marginTop="16dp" />
+
 </LinearLayout>

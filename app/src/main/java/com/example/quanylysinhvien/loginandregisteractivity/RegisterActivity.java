@@ -38,17 +38,14 @@ public class RegisterActivity extends AppCompatActivity {
         rlayout.setAnimation(animation);
 
         btNhapLai.setOnClickListener(v -> xoaDuLieuNhap());
-
         btDangKy.setOnClickListener(v -> dangKyTaiKhoan());
     }
 
     private void init() {
         rlayout = findViewById(R.id.rlayout);
-
         txtRegTk = findViewById(R.id.edtRegUser);
         txtRegMk = findViewById(R.id.edtRegPassword);
         txtRegMkk = findViewById(R.id.edtRePassword);
-
         btDangKy = findViewById(R.id.btnReg);
         btNhapLai = findViewById(R.id.btnRelay);
     }
@@ -107,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        TaikhoanMatKhau taiKhoanMoi = new TaikhoanMatKhau(tk, mk);
+        TaikhoanMatKhau taiKhoanMoi = new TaikhoanMatKhau(tk, mk, "USER", null);
         boolean kq = tkDao.them(taiKhoanMoi);
 
         if (kq) {

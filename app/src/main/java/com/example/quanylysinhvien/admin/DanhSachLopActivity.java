@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.quanylysinhvien.R;
 import com.example.quanylysinhvien.adapter.LopAdapter;
-import com.example.quanylysinhvien.dao.LopDao;
+import com.example.quanylysinhvien.dao.LopDAO;
 import com.example.quanylysinhvien.model.Lop;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,13 +23,13 @@ import java.util.ArrayList;
 public class DanhSachLopActivity extends AppCompatActivity {
 
     private FloatingActionButton fbadd, fab, fbHome;
-    private TextView tvanhien;
+    private TextView tvAnHien;
     private EditText edtSearch;
     private ListView listView;
 
-    private ArrayList<Lop> dsLop = new ArrayList<>();
+    private ArrayList<Lop> dsLop;
     private LopAdapter lopAdapter;
-    private LopDao lopDao;
+    private LopDAO lopDAO;
 
     private boolean isOpen = false;
 
@@ -39,7 +39,9 @@ public class DanhSachLopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_danh_sach_lop);
 
         anhXa();
-        lopDao = new LopDao(this);
+
+        dsLop = new ArrayList<>();
+        lopDAO = new LopDAO(this);
 
         loadData();
         timKiem();
@@ -51,28 +53,35 @@ public class DanhSachLopActivity extends AppCompatActivity {
         fbadd = findViewById(R.id.fbThemLop);
         fbHome = findViewById(R.id.fbHomeLop);
         fab = findViewById(R.id.fab1);
-        tvanhien = findViewById(R.id.tvAnHien);
+        tvAnHien = findViewById(R.id.tvAnHien);
         edtSearch = findViewById(R.id.edtserchLop);
     }
 
     private void loadData() {
         dsLop.clear();
-        dsLop.addAll(lopDao.getAll());
+        dsLop.addAll(lopDAO.getAll());
 
-        lopAdapter = new LopAdapter(
-                DanhSachLopActivity.this,
-                R.layout.dong_xem_lop,
-                dsLop
-        );
+        if (lopAdapter == null) {
+            lopAdapter = new LopAdapter(
+                    DanhSachLopActivity.this,
+                    R.layout.dong_xem_lop,
+                    dsLop
+            );
+            listView.setAdapter(lopAdapter);
+        } else {
+            lopAdapter.notifyDataSetChanged();
+        }
 
-        listView.setAdapter(lopAdapter);
+        capNhatTrangThaiDanhSach();
+    }
 
+    private void capNhatTrangThaiDanhSach() {
         if (dsLop.isEmpty()) {
             listView.setVisibility(View.INVISIBLE);
-            tvanhien.setVisibility(View.VISIBLE);
+            tvAnHien.setVisibility(View.VISIBLE);
         } else {
             listView.setVisibility(View.VISIBLE);
-            tvanhien.setVisibility(View.INVISIBLE);
+            tvAnHien.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -120,11 +129,21 @@ public class DanhSachLopActivity extends AppCompatActivity {
         });
 
         fab.setOnClickListener(v -> {
-            if (!isOpen) {
-                openMenu();
-            } else {
+            if (isOpen) {
                 closeMenu();
+            } else {
+                openMenu();
             }
+        });
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Lop lop = (Lop) lopAdapter.getItem(position);
+
+            Intent intent = new Intent(DanhSachLopActivity.this, QuanLyLopActivity.class);
+            intent.putExtra("maLop", lop.getMaLop());
+            intent.putExtra("tenLop", lop.getTenLop());
+            intent.putExtra("maNganh", lop.getMaNganh());
+            startActivity(intent);
         });
     }
 

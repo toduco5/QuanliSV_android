@@ -43,6 +43,15 @@
                 android:layout_marginTop="4dp"
                 android:text="Lập Trình Android"
                 android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtMonHocLop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Môn học: Java, Android"
+                android:textSize="14sp"
+                android:textColor="#666666" />
         </LinearLayout>
 
         <ImageView

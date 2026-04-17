@@ -1,37 +1,41 @@
 package com.example.quanylysinhvien.adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.quanylysinhvien.R;
-import com.example.quanylysinhvien.dao.SinhVienDao;
+import com.example.quanylysinhvien.database.DBHelper;
 import com.example.quanylysinhvien.model.SinhVien;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SinhVienAdapter extends BaseAdapter implements Filterable {
+public class SinhVienAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<SinhVien> ds;
-    ArrayList<SinhVien> dsGoc;
-    SinhVienDao dao;
+    DBHelper dbHelper;
+    OnSinhVienActionListener listener;
 
-    public SinhVienAdapter(Context context, ArrayList<SinhVien> ds) {
+    public interface OnSinhVienActionListener {
+        void onSua(SinhVien sv);
+        void onReload();
+    }
+
+    public SinhVienAdapter(Context context, ArrayList<SinhVien> ds, OnSinhVienActionListener listener) {
         this.context = context;
         this.ds = ds;
-        this.dsGoc = new ArrayList<>(ds);
-        dao = new SinhVienDao(context);
+        this.listener = listener;
+        dbHelper = new DBHelper(context);
     }
 
     @Override
@@ -49,84 +53,99 @@ public class SinhVienAdapter extends BaseAdapter implements Filterable {
         return position;
     }
 
-    class ViewHolder {
-        TextView tvMa, tvTen, tvEmail, tvLop;
-        CircleImageView img;
-        ImageView btnXoa;
+    static class ViewHolder {
+        CircleImageView imageViewHinh;
+        TextView tvMaSV, tvTenSV, tvEmailSV, tvLopSV;
+        ImageView imageViewDelete;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder holder;
 
         if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.dong_sinhvien, parent, false);
             holder = new ViewHolder();
 
-            convertView = LayoutInflater.from(context)
-                    .inflate(R.layout.dong_sinhvien, parent, false);
-
-            holder.tvMa = convertView.findViewById(R.id.tvMaSV);
-            holder.tvTen = convertView.findViewById(R.id.tvTenSV);
-            holder.tvEmail = convertView.findViewById(R.id.tvEmailSV);
-            holder.tvLop = convertView.findViewById(R.id.tvLopSV);
-            holder.img = convertView.findViewById(R.id.imageViewHinh);
-            holder.btnXoa = convertView.findViewById(R.id.imageViewDelete);
+            holder.imageViewHinh = convertView.findViewById(R.id.imageViewHinh);
+            holder.tvMaSV = convertView.findViewById(R.id.tvMaSV);
+            holder.tvTenSV = convertView.findViewById(R.id.tvTenSV);
+            holder.tvEmailSV = convertView.findViewById(R.id.tvEmailSV);
+            holder.tvLopSV = convertView.findViewById(R.id.tvLopSV);
+            holder.imageViewDelete = convertView.findViewById(R.id.imageViewDelete);
 
             convertView.setTag(holder);
-
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        SinhVien s = ds.get(position);
+        SinhVien sv = ds.get(position);
 
-        holder.tvMa.setText(s.getMaSv());
-        holder.tvTen.setText(s.getTenSv());
-        holder.tvEmail.setText(s.getEmail());
-        holder.tvLop.setText(s.getMaLop());
+        holder.tvMaSV.setText("MSSV: " + sv.getMaSv());
+        holder.tvTenSV.setText("Tên: " + sv.getTenSv());
+        holder.tvEmailSV.setText("Email: " + sv.getEmail());
+        holder.tvLopSV.setText("Lớp: " + sv.getMaLop());
 
-        holder.btnXoa.setOnClickListener(v -> {
-            dao.delete(s);
-            ds.clear();
-            ds.addAll(dao.getALL());
-            notifyDataSetChanged();
+        setAvatar(holder.imageViewHinh, sv.getHinh());
+
+        convertView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onSua(sv);
+            }
+        });
+
+        holder.imageViewDelete.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Xóa sinh viên");
+            builder.setMessage("Bạn có chắc muốn xóa sinh viên " + sv.getMaSv() + " không?");
+
+            builder.setPositiveButton("Có", (dialog, which) -> {
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                int kq = db.delete("SINHVIEN", "maSv=?", new String[]{sv.getMaSv()});
+                db.close();
+
+                if (kq > 0) {
+                    Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                    if (listener != null) {
+                        listener.onReload();
+                    }
+                } else {
+                    Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            builder.setNegativeButton("Không", null);
+            builder.show();
         });
 
         return convertView;
     }
 
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
+    private void setAvatar(CircleImageView imageView, String tenHinh) {
+        String fileName = normalizeImageName(tenHinh);
+        int resId = context.getResources().getIdentifier(fileName, "drawable", context.getPackageName());
 
-                ArrayList<SinhVien> loc = new ArrayList<>();
+        if (resId != 0) {
+            imageView.setImageResource(resId);
+        } else {
+            imageView.setImageResource(R.drawable.avatamacdinh);
+        }
+    }
 
-                if (constraint == null || constraint.length() == 0) {
-                    loc.addAll(dsGoc);
-                } else {
-                    String key = constraint.toString().toLowerCase();
+    private String normalizeImageName(String input) {
+        if (input == null) return "";
 
-                    for (SinhVien sv : dsGoc) {
-                        if (sv.getTenSv().toLowerCase().contains(key)) {
-                            loc.add(sv);
-                        }
-                    }
-                }
+        String s = input.trim().toLowerCase();
 
-                FilterResults results = new FilterResults();
-                results.values = loc;
-                results.count = loc.size();
-                return results;
-            }
+        if (s.endsWith(".png")) {
+            s = s.substring(0, s.length() - 4);
+        } else if (s.endsWith(".jpg")) {
+            s = s.substring(0, s.length() - 4);
+        } else if (s.endsWith(".jpeg")) {
+            s = s.substring(0, s.length() - 5);
+        }
 
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                ds = (ArrayList<SinhVien>) results.values;
-                notifyDataSetChanged();
-            }
-        };
+        s = s.replace(" ", "_");
+        return s;
     }
 }

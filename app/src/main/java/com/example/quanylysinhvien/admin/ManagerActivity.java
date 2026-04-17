@@ -11,6 +11,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.quanylysinhvien.R;
 import com.example.quanylysinhvien.SuKienActivity;
@@ -22,7 +23,7 @@ public class ManagerActivity extends AppCompatActivity {
             btnTaiKhoan, btnPhanHoi, btnThongKe, btnSuKien;
 
     private TextView tvClass, tvStudent, tvNganh, tvMonHoc, tvDiem,
-            tvTaiKhoan, tvPhanHoi, tvThongKe, tvSuKien;
+            tvTaiKhoan, tvPhanHoi, tvThongKe, tvSuKien, mywelcome;
 
     private CardView cardLopHoc, cardSinhVien, cardNganh, cardMonHoc, cardDiem,
             cardTaiKhoan, cardPhanHoi, cardThongKe, cardSuKien;
@@ -41,6 +42,7 @@ public class ManagerActivity extends AppCompatActivity {
         tenDangNhap = getIntent().getStringExtra("tenDangNhap");
 
         anhXa();
+        hienThiThongTinAdmin();
         xuLyAnimation();
         xuLyMenu();
         xuLySuKien();
@@ -49,6 +51,7 @@ public class ManagerActivity extends AppCompatActivity {
     private void anhXa() {
         gridLayout = findViewById(R.id.girdviewManager);
         imageViewMenu = findViewById(R.id.imageViewMenu);
+        mywelcome = findViewById(R.id.mywelcome);
 
         btnLop = findViewById(R.id.btnLop);
         btnSinhVien = findViewById(R.id.btnsinhvien);
@@ -81,9 +84,21 @@ public class ManagerActivity extends AppCompatActivity {
         cardSuKien = findViewById(R.id.cardSuKien);
     }
 
+    private void hienThiThongTinAdmin() {
+        if (tenDangNhap != null && !tenDangNhap.trim().isEmpty()) {
+            mywelcome.setText("Xin chào, " + tenDangNhap);
+        } else {
+            mywelcome.setText("Admin");
+        }
+    }
+
     private void xuLyAnimation() {
-        animation = AnimationUtils.loadAnimation(this, R.anim.bottom_top);
-        gridLayout.setAnimation(animation);
+        try {
+            animation = AnimationUtils.loadAnimation(this, R.anim.bottom_top);
+            gridLayout.setAnimation(animation);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void xuLyMenu() {
@@ -103,55 +118,135 @@ public class ManagerActivity extends AppCompatActivity {
     }
 
     private void xuLySuKien() {
+        // Lớp
         cardLopHoc.setOnClickListener(v -> moDanhSachLop());
         btnLop.setOnClickListener(v -> moDanhSachLop());
         tvClass.setOnClickListener(v -> moDanhSachLop());
 
-        cardSinhVien.setOnClickListener(v -> moThemSinhVien());
-        btnSinhVien.setOnClickListener(v -> moThemSinhVien());
-        tvStudent.setOnClickListener(v -> moThemSinhVien());
+        // Sinh viên
+        cardSinhVien.setOnClickListener(v -> moSinhVien());
+        btnSinhVien.setOnClickListener(v -> moSinhVien());
+        tvStudent.setOnClickListener(v -> moSinhVien());
 
-        cardNganh.setOnClickListener(v -> startActivity(new Intent(this, DanhSachNganhActivity.class)));
-        btnNganh.setOnClickListener(v -> startActivity(new Intent(this, DanhSachNganhActivity.class)));
-        tvNganh.setOnClickListener(v -> startActivity(new Intent(this, DanhSachNganhActivity.class)));
+        // Ngành
+        cardNganh.setOnClickListener(v -> moNganh());
+        btnNganh.setOnClickListener(v -> moNganh());
+        tvNganh.setOnClickListener(v -> moNganh());
 
-        cardMonHoc.setOnClickListener(v -> startActivity(new Intent(this, DanhSachMonHocActivity.class)));
-        btnMonHoc.setOnClickListener(v -> startActivity(new Intent(this, DanhSachMonHocActivity.class)));
-        tvMonHoc.setOnClickListener(v -> startActivity(new Intent(this, DanhSachMonHocActivity.class)));
+        // Môn học
+        cardMonHoc.setOnClickListener(v -> moMonHoc());
+        btnMonHoc.setOnClickListener(v -> moMonHoc());
+        tvMonHoc.setOnClickListener(v -> moMonHoc());
 
-        cardDiem.setOnClickListener(v -> startActivity(new Intent(this, DanhSachDiemActivity.class)));
-        btnDiem.setOnClickListener(v -> startActivity(new Intent(this, DanhSachDiemActivity.class)));
-        tvDiem.setOnClickListener(v -> startActivity(new Intent(this, DanhSachDiemActivity.class)));
+        // Điểm
+        cardDiem.setOnClickListener(v -> moDiem());
+        btnDiem.setOnClickListener(v -> moDiem());
+        tvDiem.setOnClickListener(v -> moDiem());
 
-        cardTaiKhoan.setOnClickListener(v -> startActivity(new Intent(this, QuanLyTaiKhoanActivity.class)));
-        btnTaiKhoan.setOnClickListener(v -> startActivity(new Intent(this, QuanLyTaiKhoanActivity.class)));
-        tvTaiKhoan.setOnClickListener(v -> startActivity(new Intent(this, QuanLyTaiKhoanActivity.class)));
+        // Tài khoản
+        cardTaiKhoan.setOnClickListener(v -> moTaiKhoan());
+        btnTaiKhoan.setOnClickListener(v -> moTaiKhoan());
+        tvTaiKhoan.setOnClickListener(v -> moTaiKhoan());
 
-        cardPhanHoi.setOnClickListener(v -> startActivity(new Intent(this, XemPhanHoiActivity.class)));
-        btnPhanHoi.setOnClickListener(v -> startActivity(new Intent(this, XemPhanHoiActivity.class)));
-        tvPhanHoi.setOnClickListener(v -> startActivity(new Intent(this, XemPhanHoiActivity.class)));
+        // Phản hồi
+        cardPhanHoi.setOnClickListener(v -> moPhanHoi());
+        btnPhanHoi.setOnClickListener(v -> moPhanHoi());
+        tvPhanHoi.setOnClickListener(v -> moPhanHoi());
 
-        cardThongKe.setOnClickListener(v -> startActivity(new Intent(this, ThongKeActivity.class)));
-        btnThongKe.setOnClickListener(v -> startActivity(new Intent(this, ThongKeActivity.class)));
-        tvThongKe.setOnClickListener(v -> startActivity(new Intent(this, ThongKeActivity.class)));
+        // Thống kê
+        cardThongKe.setOnClickListener(v -> moThongKe());
+        btnThongKe.setOnClickListener(v -> moThongKe());
+        tvThongKe.setOnClickListener(v -> moThongKe());
 
-        cardSuKien.setOnClickListener(v -> startActivity(new Intent(this, SuKienActivity.class)));
-        btnSuKien.setOnClickListener(v -> startActivity(new Intent(this, SuKienActivity.class)));
-        tvSuKien.setOnClickListener(v -> startActivity(new Intent(this, SuKienActivity.class)));
+        // Sự kiện
+        cardSuKien.setOnClickListener(v -> moSuKien());
+        btnSuKien.setOnClickListener(v -> moSuKien());
+        tvSuKien.setOnClickListener(v -> moSuKien());
     }
 
     private void moDanhSachLop() {
-        Intent intent = new Intent(this, DanhSachLopActivity.class);
-        intent.putExtra("tenDangNhap", tenDangNhap);
-        startActivity(intent);
-        overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+        try {
+            Intent intent = new Intent(this, DanhSachLopActivity.class);
+            intent.putExtra("tenDangNhap", tenDangNhap);
+            startActivity(intent);
+            overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+        } catch (Exception e) {
+            Toast.makeText(this, "Chưa mở được màn hình lớp học", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void moThemSinhVien() {
-        Intent intent = new Intent(this, ThemSinhVienActivity.class);
-        intent.putExtra("tenDangNhap", tenDangNhap);
-        startActivity(intent);
-        overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+    private void moSinhVien() {
+        try {
+            Intent intent = new Intent(this, ThemSinhVienActivity.class);
+            intent.putExtra("tenDangNhap", tenDangNhap);
+            startActivity(intent);
+            overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+        } catch (Exception e) {
+            Toast.makeText(this, "Chưa mở được màn hình sinh viên", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void moNganh() {
+        try {
+            startActivity(new Intent(this, DanhSachNganhActivity.class));
+            overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+        } catch (Exception e) {
+            Toast.makeText(this, "Chưa mở được màn hình ngành", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void moMonHoc() {
+        try {
+            startActivity(new Intent(this, DanhSachMonHocActivity.class));
+            overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+        } catch (Exception e) {
+            Toast.makeText(this, "Chưa mở được màn hình môn học", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void moDiem() {
+        try {
+            startActivity(new Intent(this, DanhSachDiemActivity.class));
+            overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+        } catch (Exception e) {
+            Toast.makeText(this, "Chưa mở được màn hình điểm", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void moTaiKhoan() {
+        try {
+            startActivity(new Intent(this, QuanLyTaiKhoanActivity.class));
+            overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+        } catch (Exception e) {
+            Toast.makeText(this, "Chưa mở được màn hình tài khoản", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void moPhanHoi() {
+        try {
+            startActivity(new Intent(this, XemPhanHoiActivity.class));
+            overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+        } catch (Exception e) {
+            Toast.makeText(this, "Chưa mở được màn hình phản hồi", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void moThongKe() {
+        try {
+            startActivity(new Intent(this, ThongKeActivity.class));
+            overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+        } catch (Exception e) {
+            Toast.makeText(this, "Chưa mở được màn hình thống kê", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void moSuKien() {
+        try {
+            startActivity(new Intent(this, SuKienActivity.class));
+            overridePendingTransition(R.anim.ani_intent, R.anim.ani_intenexit);
+        } catch (Exception e) {
+            Toast.makeText(this, "Chưa mở được màn hình sự kiện", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void dangXuat() {

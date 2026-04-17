@@ -3,29 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:background="#F5F6FA"
+    android:padding="16dp">
 
+    <!-- TIÊU ĐỀ -->
     <TextView
         android:id="@+id/tvTitleXemDiem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bảng điểm"
-        android:textSize="22sp"
+        android:text="Bảng điểm sinh viên"
+        android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="#222222"
         android:gravity="center"
-        android:layout_marginBottom="10dp" />
+        android:padding="10dp" />
 
+    <!-- THÔNG TIN -->
     <TextView
         android:id="@+id/tvThongBaoDiem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Thông tin điểm"
-        android:textSize="16sp"
-        android:layout_marginBottom="10dp" />
+        android:textSize="15sp"
+        android:textColor="#444444"
+        android:background="#FFFFFF"
+        android:padding="12dp"
+        android:layout_marginTop="12dp"
+        android:lineSpacingExtra="3dp" />
 
+    <!-- LISTVIEW -->
     <ListView
         android:id="@+id/lvXemDiem"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#DDDDDD"
+        android:dividerHeight="1dp"
+        android:layout_marginTop="12dp"
+        android:background="#FFFFFF" />
 
 </LinearLayout>

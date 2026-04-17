@@ -6,25 +6,29 @@
     android:padding="20dp">
 
     <EditText
-        android:id="@+id/edtMaLopSua"
+        android:id="@+id/edtTenTaiKhoan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mã lớp"
-        android:enabled="false"
+        android:hint="Tên tài khoản"
         android:minHeight="48dp" />
 
     <EditText
-        android:id="@+id/edtTenLopSua"
+        android:id="@+id/edtMatKhau"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Tên lớp"
+        android:hint="Mật khẩu"
         android:layout_marginTop="12dp"
         android:minHeight="48dp" />
 
     <Spinner
-        android:id="@+id/spNganhSua"
+        android:id="@+id/spVaiTro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp" />
 
+    <Spinner
+        android:id="@+id/spSinhVien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp" />
 </LinearLayout>

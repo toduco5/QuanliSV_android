@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/tvMaSk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mã SK: SK01"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvTenSk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên sự kiện"/>
+
+    <TextView
+        android:id="@+id/tvNgaySk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ngày"/>
+
+    <TextView
+        android:id="@+id/tvNoiDung"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nội dung"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/btnSuaSk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sửa"/>
+
+        <Button
+            android:id="@+id/btnXoaSk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xóa"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+</LinearLayout>

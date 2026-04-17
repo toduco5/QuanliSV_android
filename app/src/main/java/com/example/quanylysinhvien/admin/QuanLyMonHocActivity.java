@@ -5,14 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.quanylysinhvien.R;
 import com.example.quanylysinhvien.adapter.MonHocAdapter;
 import com.example.quanylysinhvien.dao.MonHocDAO;
+import com.example.quanylysinhvien.dao.NganhDAO;
 import com.example.quanylysinhvien.model.MonHoc;
 
 import java.util.ArrayList;
@@ -20,12 +23,15 @@ import java.util.ArrayList;
 public class QuanLyMonHocActivity extends AppCompatActivity {
 
     private EditText edtMaMon, edtTenMon, edtSoTinChi;
+    private Spinner spNganhMonHoc;
     private Button btnThemMonHoc, btnSuaMonHoc, btnXoaMonHoc, btnLamMoi;
     private ListView lvMonHoc;
 
     private MonHocDAO monHocDAO;
+    private NganhDAO nganhDAO;
     private ArrayList<MonHoc> list;
     private MonHocAdapter adapter;
+    private ArrayList<String> dsNganh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +41,10 @@ public class QuanLyMonHocActivity extends AppCompatActivity {
         anhXa();
 
         monHocDAO = new MonHocDAO(this);
+        nganhDAO = new NganhDAO(this);
         list = new ArrayList<>();
 
+        loadSpinnerNganh();
         loadData();
         cheDoThem();
 
@@ -52,6 +60,13 @@ public class QuanLyMonHocActivity extends AppCompatActivity {
             edtTenMon.setText(m.getTenMon());
             edtSoTinChi.setText(String.valueOf(m.getSoTinChi()));
 
+            for (int i = 0; i < dsNganh.size(); i++) {
+                if (dsNganh.get(i).startsWith(m.getMaNganh() + " - ")) {
+                    spNganhMonHoc.setSelection(i);
+                    break;
+                }
+            }
+
             edtMaMon.setEnabled(false);
             btnThemMonHoc.setEnabled(false);
             btnSuaMonHoc.setEnabled(true);
@@ -63,6 +78,7 @@ public class QuanLyMonHocActivity extends AppCompatActivity {
         edtMaMon = findViewById(R.id.edtMaMon);
         edtTenMon = findViewById(R.id.edtTenMon);
         edtSoTinChi = findViewById(R.id.edtSoTinChi);
+        spNganhMonHoc = findViewById(R.id.spNganhMonHoc);
 
         btnThemMonHoc = findViewById(R.id.btnThemMonHoc);
         btnSuaMonHoc = findViewById(R.id.btnSuaMonHoc);
@@ -70,6 +86,18 @@ public class QuanLyMonHocActivity extends AppCompatActivity {
         btnLamMoi = findViewById(R.id.btnLamMoi);
 
         lvMonHoc = findViewById(R.id.lvMonHoc);
+    }
+
+    private void loadSpinnerNganh() {
+        dsNganh = nganhDAO.getDanhSachSpinner();
+
+        ArrayAdapter<String> adapterNganh = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                dsNganh
+        );
+        adapterNganh.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spNganhMonHoc.setAdapter(adapterNganh);
     }
 
     private void loadData() {
@@ -98,9 +126,10 @@ public class QuanLyMonHocActivity extends AppCompatActivity {
 
         if (!kiemTraDuLieu(ma, ten, stc)) return;
 
+        String maNganh = spNganhMonHoc.getSelectedItem().toString().split(" - ")[0];
         int soTinChi = Integer.parseInt(stc);
 
-        boolean ketQua = monHocDAO.insert(new MonHoc(ma, ten, soTinChi));
+        boolean ketQua = monHocDAO.insert(new MonHoc(ma, ten, soTinChi, maNganh));
 
         if (ketQua) {
             Toast.makeText(this, "Thêm môn học thành công", Toast.LENGTH_SHORT).show();
@@ -118,9 +147,10 @@ public class QuanLyMonHocActivity extends AppCompatActivity {
 
         if (!kiemTraDuLieu(ma, ten, stc)) return;
 
+        String maNganh = spNganhMonHoc.getSelectedItem().toString().split(" - ")[0];
         int soTinChi = Integer.parseInt(stc);
 
-        boolean ketQua = monHocDAO.update(new MonHoc(ma, ten, soTinChi));
+        boolean ketQua = monHocDAO.update(new MonHoc(ma, ten, soTinChi, maNganh));
 
         if (ketQua) {
             Toast.makeText(this, "Sửa môn học thành công", Toast.LENGTH_SHORT).show();
@@ -198,6 +228,7 @@ public class QuanLyMonHocActivity extends AppCompatActivity {
         edtMaMon.setText("");
         edtTenMon.setText("");
         edtSoTinChi.setText("");
+        spNganhMonHoc.setSelection(0);
 
         edtMaMon.setEnabled(true);
         edtMaMon.requestFocus();

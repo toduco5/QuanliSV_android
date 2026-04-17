@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:padding="20dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFAB00"
     android:orientation="vertical">
-
 
     <TextView
         android:layout_width="match_parent"
@@ -17,12 +14,14 @@
         android:text="SỬA SINH VIÊN"
         android:textSize="25sp"
         android:textStyle="bold" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
         android:gravity="center_vertical|center_horizontal"
         android:layout_height="wrap_content">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView_avata_edit"
             android:layout_gravity="center_horizontal"
@@ -32,6 +31,7 @@
             android:layout_marginBottom="7dp"
             android:layout_marginRight="5dp"
             android:src="@drawable/avatamacdinh" />
+
         <Button
             android:id="@+id/btnReviewSuaSV"
             android:text="Xem ảnh"
@@ -42,25 +42,24 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-
-
     <EditText
         android:id="@+id/edMaSvedit"
         android:layout_marginBottom="5dp"
         android:background="#FFFFFF"
         android:padding="10dp"
-        android:inputType="textVisiblePassword"
+        android:inputType="text"
         android:textColorHint="#2196F3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nhập mã sinh viên" />
+        android:hint="Nhập mã sinh viên"
+        android:enabled="false" />
 
     <EditText
         android:id="@+id/edTenSvedit"
         android:background="#FFFFFF"
         android:layout_marginBottom="5dp"
         android:padding="10dp"
-        android:inputType="textVisiblePassword"
+        android:inputType="textPersonName"
         android:textColorHint="#2196F3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,21 +69,23 @@
         android:id="@+id/edemail"
         android:background="#FFFFFF"
         android:padding="10dp"
-        android:inputType="textVisiblePassword"
+        android:inputType="textEmailAddress"
         android:textColorHint="#2196F3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nhập email" />
+
     <EditText
         android:id="@+id/edhinh"
         android:background="#FFFFFF"
         android:padding="10dp"
-        android:inputType="textVisiblePassword"
+        android:inputType="text"
         android:layout_marginTop="5dp"
         android:textColorHint="#2196F3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nhập tên hình" />
+
     <Spinner
         android:id="@+id/spEdmalop"
         android:layout_width="match_parent"
@@ -100,7 +101,7 @@
 
         <Button
             android:id="@+id/btnEdSua"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="#FFFFFF"
@@ -113,13 +114,14 @@
             android:layout_marginLeft="10dp"
             android:textColor="#FFFFFF"
             android:background="@drawable/border"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Nhập lại" />
+
         <Button
             android:id="@+id/btnHuyeditSV"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textColor="#FFFFFF"

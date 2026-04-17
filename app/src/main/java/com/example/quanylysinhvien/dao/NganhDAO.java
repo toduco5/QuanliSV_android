@@ -11,6 +11,7 @@ import com.example.quanylysinhvien.model.Nganh;
 import java.util.ArrayList;
 
 public class NganhDAO {
+
     DBHelper dbHelper;
 
     public NganhDAO(Context context) {
@@ -20,12 +21,16 @@ public class NganhDAO {
     public ArrayList<Nganh> getAll() {
         ArrayList<Nganh> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM NGANH", null);
 
-        while (c.moveToNext()) {
-            String ma = c.getString(0);
-            String ten = c.getString(1);
-            list.add(new Nganh(ma, ten));
+        Cursor c = db.rawQuery("SELECT maNganh, tenNganh FROM NGANH ORDER BY maNganh ASC", null);
+
+        if (c.moveToFirst()) {
+            do {
+                list.add(new Nganh(
+                        c.getString(0),
+                        c.getString(1)
+                ));
+            } while (c.moveToNext());
         }
 
         c.close();
@@ -33,44 +38,70 @@ public class NganhDAO {
         return list;
     }
 
-    public boolean insert(Nganh n) {
+    public boolean insert(Nganh nganh) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+
         ContentValues values = new ContentValues();
-        values.put("maNganh", n.getMaNganh());
-        values.put("tenNganh", n.getTenNganh());
+        values.put("maNganh", nganh.getMaNganh());
+        values.put("tenNganh", nganh.getTenNganh());
 
         long kq = db.insert("NGANH", null, values);
         db.close();
         return kq != -1;
     }
 
-    public boolean update(Nganh n) {
+    public boolean update(Nganh nganh) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("tenNganh", n.getTenNganh());
 
-        int kq = db.update("NGANH", values, "maNganh=?", new String[]{n.getMaNganh()});
+        ContentValues values = new ContentValues();
+        values.put("tenNganh", nganh.getTenNganh());
+
+        int kq = db.update("NGANH", values, "maNganh=?", new String[]{nganh.getMaNganh()});
         db.close();
         return kq > 0;
     }
 
     public boolean delete(String maNganh) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+
         int kq = db.delete("NGANH", "maNganh=?", new String[]{maNganh});
         db.close();
         return kq > 0;
     }
 
-    public ArrayList<Nganh> search(String tuKhoa) {
+    public ArrayList<Nganh> search(String key) {
         ArrayList<Nganh> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+
         Cursor c = db.rawQuery(
-                "SELECT * FROM NGANH WHERE maNganh LIKE ? OR tenNganh LIKE ?",
-                new String[]{"%" + tuKhoa + "%", "%" + tuKhoa + "%"}
+                "SELECT maNganh, tenNganh FROM NGANH WHERE maNganh LIKE ? OR tenNganh LIKE ? ORDER BY maNganh ASC",
+                new String[]{"%" + key + "%", "%" + key + "%"}
         );
 
-        while (c.moveToNext()) {
-            list.add(new Nganh(c.getString(0), c.getString(1)));
+        if (c.moveToFirst()) {
+            do {
+                list.add(new Nganh(
+                        c.getString(0),
+                        c.getString(1)
+                ));
+            } while (c.moveToNext());
+        }
+
+        c.close();
+        db.close();
+        return list;
+    }
+
+    public ArrayList<String> getDanhSachSpinner() {
+        ArrayList<String> list = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT maNganh, tenNganh FROM NGANH ORDER BY maNganh ASC", null);
+
+        if (c.moveToFirst()) {
+            do {
+                list.add(c.getString(0) + " - " + c.getString(1));
+            } while (c.moveToNext());
         }
 
         c.close();

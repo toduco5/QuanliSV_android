@@ -6,7 +6,6 @@
     android:background="#F5F6FA"
     android:padding="12dp">
 
-    <!-- Tiêu đề -->
     <TextView
         android:id="@+id/tvTitleSinhVien"
         android:layout_width="match_parent"
@@ -18,7 +17,6 @@
         android:gravity="center"
         android:layout_marginBottom="10dp" />
 
-    <!-- Tổng số -->
     <TextView
         android:id="@+id/tvThongBaoSinhVien"
         android:layout_width="match_parent"
@@ -28,7 +26,6 @@
         android:textColor="#444444"
         android:layout_marginBottom="10dp" />
 
-    <!-- Danh sách -->
     <ListView
         android:id="@+id/lvSinhVien"
         android:layout_width="match_parent"

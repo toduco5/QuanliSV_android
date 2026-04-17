@@ -1,6 +1,7 @@
 package com.example.quanylysinhvien.model;
 
 public class SinhVien {
+
     private String maSv;
     private String tenSv;
     private String email;
@@ -8,7 +9,11 @@ public class SinhVien {
     private String maLop;
     private String maNganh;
 
-    public SinhVien(String maSv, String tenSv, String email, String hinh, String maLop, String maNganh) {
+    public SinhVien() {
+    }
+
+    public SinhVien(String maSv, String tenSv, String email,
+                    String hinh, String maLop, String maNganh) {
         this.maSv = maSv;
         this.tenSv = tenSv;
         this.email = email;

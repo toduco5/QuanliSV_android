@@ -13,8 +13,9 @@ import com.example.quanylysinhvien.model.Nganh;
 import java.util.ArrayList;
 
 public class NganhAdapter extends BaseAdapter {
-    Activity activity;
-    ArrayList<Nganh> list;
+
+    private final Activity activity;
+    private final ArrayList<Nganh> list;
 
     public NganhAdapter(Activity activity, ArrayList<Nganh> list) {
         this.activity = activity;
@@ -23,7 +24,7 @@ public class NganhAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
     }
 
     @Override
@@ -37,7 +38,8 @@ public class NganhAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView tvMaNganh, tvTenNganh;
+        TextView tvMaNganh;
+        TextView tvTenNganh;
     }
 
     @Override
@@ -45,9 +47,9 @@ public class NganhAdapter extends BaseAdapter {
         ViewHolder holder;
 
         if (convertView == null) {
-            holder = new ViewHolder();
             convertView = LayoutInflater.from(activity).inflate(R.layout.dong_nganh, parent, false);
 
+            holder = new ViewHolder();
             holder.tvMaNganh = convertView.findViewById(R.id.tvMaNganh);
             holder.tvTenNganh = convertView.findViewById(R.id.tvTenNganh);
 
@@ -56,9 +58,10 @@ public class NganhAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Nganh n = list.get(position);
-        holder.tvMaNganh.setText("Mã ngành: " + n.getMaNganh());
-        holder.tvTenNganh.setText("Tên ngành: " + n.getTenNganh());
+        Nganh nganh = list.get(position);
+
+        holder.tvMaNganh.setText("Mã ngành: " + nganh.getMaNganh());
+        holder.tvTenNganh.setText("Tên ngành: " + nganh.getTenNganh());
 
         return convertView;
     }

@@ -3,34 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="12dp"
+    android:background="#FFFFFF"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/tvMaSvXem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mã SV: 001"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvTenSvXem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên SV: Nguyễn Văn A" />
 
     <TextView
         android:id="@+id/tvMaMonXem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mã môn: MH01"
-        android:textStyle="bold"
-        android:textSize="16sp" />
+        android:text="Mã môn: MH01" />
 
     <TextView
         android:id="@+id/tvTenMonXem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:text="Tên môn: Lập trình Java" />
 
     <TextView
         android:id="@+id/tvSoTinChiXem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:text="Số tín chỉ: 3" />
 
     <TextView
         android:id="@+id/tvDiemXem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Điểm: 8.5" />
+        android:text="Điểm: 8.5"
+        android:textStyle="bold"
+        android:textColor="#1E88E5" />
+
 </LinearLayout>
