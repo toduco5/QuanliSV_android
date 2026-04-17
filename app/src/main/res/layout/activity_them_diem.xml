@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <EditText
+        android:id="@+id/edtMaSv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mã sinh viên"/>
+
+    <EditText
+        android:id="@+id/edtMaMon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mã môn"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/edtDiem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Điểm"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/btnThemDiem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm điểm"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

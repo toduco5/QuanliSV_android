@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F6FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/tvTitleThongKe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thống Kê Hệ Thống"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Ảnh -->
+        <ImageView
+            android:id="@+id/imgThongKe"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/studentintro"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Thông báo -->
+        <TextView
+            android:id="@+id/tvThongBaoThongKe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tổng dữ liệu hệ thống"
+            android:textSize="16sp"
+            android:textColor="#444444"
+            android:gravity="center"
+            android:layout_marginBottom="14dp" />
+
+        <!-- Card Sinh viên -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardSinhVienTK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp">
+
+            <TextView
+                android:id="@+id/tvTongSinhVien"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sinh viên: 0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="14dp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Card Lớp -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardLopTK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp">
+
+            <TextView
+                android:id="@+id/tvTongLop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lớp học: 0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="14dp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Card Môn học -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMonHocTK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp">
+
+            <TextView
+                android:id="@+id/tvTongMonHoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Môn học: 0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="14dp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Card Ngành -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardNganhTK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp">
+
+            <TextView
+                android:id="@+id/tvTongNganh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ngành học: 0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="14dp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Card Tài khoản -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardTaiKhoanTK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp">
+
+            <TextView
+                android:id="@+id/tvTongTaiKhoan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tài khoản: 0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="14dp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Card Phản hồi -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardPhanHoiTK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp">
+
+            <TextView
+                android:id="@+id/tvTongPhanHoi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phản hồi: 0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="14dp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Card Điểm -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardDiemTK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp">
+
+            <TextView
+                android:id="@+id/tvTongDiem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bảng điểm: 0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="14dp" />
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>

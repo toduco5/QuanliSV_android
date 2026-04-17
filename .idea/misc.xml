@@ -1,0 +1,61 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable-v24/gradient.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/bg_ui.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/border.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/bt_ui_intro.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/circle.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/circle2.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/circletransparant.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/edit.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/ic_add.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/ic_add_black_24dp.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/ic_delete_black_24dp.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/ic_home.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/ic_launcher_background.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/ic_menu.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/ic_menu_black_24dp.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/ic_money.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/icon_face.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/linerbackground.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/drawable/stroke.xml" value="0.156" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout-w100dp/test.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_calendar.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_change_password.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_danh_sach_lop.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_info_app.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_intro_one.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_login.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_main.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_manager.xml" value="0.264" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_register.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_them_lop.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/activity_them_sinh_vien.xml" value="0.25" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/custom_toolbar.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/custom_toolbar_danhsachsinhvien.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/custom_toolbar_event.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/custom_toolbardahsachlop.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/custom_toolbarinfoapp.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/customtoolbarthemlop.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/customtoolbarthemsv.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/dong_lop.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/dong_sinhvien.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/edit_lop.xml" value="0.25" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/sua_sinhvien.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/layout/test.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/Bravo/Documents/AndroidStudioProjects/QUANlYSINHVIEN/app/src/main/res/menu/drawer_menu.xml" value="0.2212962962962963" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="ms-11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

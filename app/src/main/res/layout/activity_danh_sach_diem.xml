@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh Sách Điểm"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edtTimDiem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Nhập mã sinh viên hoặc mã môn" />
+
+        <Button
+            android:id="@+id/btnTimDiem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tìm" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnThemDiemMoi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm điểm mới"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <ListView
+        android:id="@+id/lvDiem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

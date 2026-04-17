@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh Sách Môn Học"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edtTimMonHoc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Nhập mã môn hoặc tên môn"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnTimMonHoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="Tìm" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnThemMonHocMoi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm môn học mới"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:id="@+id/tvSoLuongMonHoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tổng số môn học: 0"
+        android:textStyle="bold"
+        android:textColor="#1565C0"
+        android:layout_marginBottom="8dp" />
+
+    <ListView
+        android:id="@+id/lvMonHoc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logoqnu"
+        android:label="Quản Lý Sinh Viên QNU"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- Package gốc -->
+        <activity android:name=".LienHeActivity" />
+        <activity android:name=".SuKienActivity" />
+        <activity android:name=".WebsiteActivity" />
+
+        <!-- Admin -->
+        <activity android:name=".admin.DanhSachDiemActivity" />
+        <activity android:name=".admin.DanhSachLopActivity" />
+        <activity android:name=".admin.DanhSachMonHocActivity" />
+        <activity android:name=".admin.DanhSachNganhActivity" />
+        <activity android:name=".admin.DanhSachSinhVienActivity" />
+        <activity android:name=".admin.ManagerActivity" />
+        <activity android:name=".admin.QuanLyDiemActivity" />
+        <activity android:name=".admin.QuanLyLopActivity" />
+        <activity android:name=".admin.QuanLyMonHocActivity" />
+        <activity android:name=".admin.QuanLyNganhActivity" />
+        <activity android:name=".admin.QuanLyTaiKhoanActivity" />
+        <activity android:name=".admin.ThemSinhVienActivity" />
+        <activity android:name=".admin.ThongKeActivity" />
+        <activity android:name=".admin.XemPhanHoiActivity" />
+
+        <!-- User -->
+        <activity android:name=".user.PhanHoiActivity" />
+        <activity android:name=".user.ThongTinCaNhanActivity" />
+        <activity android:name=".user.UserActivity" />
+        <activity android:name=".user.XemDiemActivity" />
+        <activity android:name=".user.XemLopActivity" />
+        <activity android:name=".user.XemMonHocActivity" />
+
+        <!-- Login / Register -->
+        <activity android:name=".loginandregisteractivity.RegisterActivity" />
+        <activity
+            android:name=".loginandregisteractivity.LoginActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

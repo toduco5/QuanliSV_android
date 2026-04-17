@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F6FA"
+    android:padding="12dp">
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:id="@+id/tvTitleTaiKhoan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quản Lý Tài Khoản"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Thông báo -->
+    <TextView
+        android:id="@+id/tvThongBaoTaiKhoan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tổng tài khoản: 0"
+        android:textSize="16sp"
+        android:textColor="#444444"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Danh sách tài khoản -->
+    <ListView
+        android:id="@+id/lvTaiKhoan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#DDDDDD"
+        android:dividerHeight="1dp" />
+
+</LinearLayout>

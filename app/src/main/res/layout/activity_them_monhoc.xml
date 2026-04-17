@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="#F5F6FA">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QUẢN LÝ MÔN HỌC"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#1565C0"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/edtMaMon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mã môn"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/edtTenMon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tên môn"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/edtSoTinChi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số tín chỉ"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btnThemMonHoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="THÊM MÔN HỌC"
+        android:layout_marginTop="14dp"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/btnSuaMonHoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SỬA MÔN HỌC"
+        android:layout_marginTop="8dp"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/btnXoaMonHoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="XÓA MÔN HỌC"
+        android:layout_marginTop="8dp"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/btnLamMoi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LÀM MỚI"
+        android:layout_marginTop="8dp"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh sách môn học"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="#1565C0"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="8dp" />
+
+    <ListView
+        android:id="@+id/lvMonHoc"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#D9D9D9"
+        android:dividerHeight="1dp" />
+
+</LinearLayout>
