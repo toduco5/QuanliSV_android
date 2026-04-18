@@ -16,7 +16,9 @@ import com.example.quanylysinhvien.user.UserActivity;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edtUserName, edtPassword;
+
     private Button btnLogin, btnRegister;
+
     private DaoTaiKhoan daoTaiKhoan;
 
     @Override
@@ -24,7 +26,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         anhXa();
+
+
         daoTaiKhoan = new DaoTaiKhoan(this);
 
         Intent intentNhan = getIntent();
@@ -52,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void dangNhap() {
+
         String tenDangNhap = edtUserName.getText().toString().trim();
         String matKhau = edtPassword.getText().toString().trim();
 
@@ -68,15 +74,18 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         boolean check = daoTaiKhoan.kiemTraDangNhap(tenDangNhap, matKhau);
+
         if (!check) {
             Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
             return;
         }
 
         String vaiTro = daoTaiKhoan.getVaiTro(tenDangNhap);
+
         String maSv = daoTaiKhoan.getMaSvTheoTaiKhoan(tenDangNhap);
 
         Intent intent;
+
 
         if ("ADMIN".equalsIgnoreCase(vaiTro)) {
             intent = new Intent(LoginActivity.this, ManagerActivity.class);
@@ -91,6 +100,8 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra("vaiTro", vaiTro);
 
         startActivity(intent);
+
+
         finish();
     }
 }

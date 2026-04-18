@@ -27,7 +27,9 @@ import java.util.HashMap;
 public class QuanLyTaiKhoanActivity extends AppCompatActivity {
 
     TextView tvTitleTaiKhoan, tvThongBaoTaiKhoan;
+
     Button btnThemTaiKhoan;
+
     ListView lvTaiKhoan;
 
     DaoTaiKhoan daoTaiKhoan;
@@ -44,6 +46,7 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quan_ly_tai_khoan);
 
         anhXa();
+
         daoTaiKhoan = new DaoTaiKhoan(this);
         sinhVienDao = new SinhVienDao(this);
 
@@ -67,14 +70,16 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
     private void loadTaiKhoan() {
         list = new ArrayList<>();
         ArrayList<TaikhoanMatKhau> dsTaiKhoan = daoTaiKhoan.getAll();
-
         for (TaikhoanMatKhau tk : dsTaiKhoan) {
             HashMap<String, String> map = new HashMap<>();
+
             map.put("tkRaw", tk.getTenTaiKhoan());
+
             map.put("tenTaiKhoan", "Tài khoản: " + tk.getTenTaiKhoan());
             map.put("matKhau", "Mật khẩu: " + tk.getMatKhau());
             map.put("vaiTro", "Vai trò: " + tk.getVaiTro());
             map.put("maSv", "Mã SV: " + (tk.getMaSv() == null ? "Chưa gán" : tk.getMaSv()));
+
             list.add(map);
         }
 
@@ -128,6 +133,7 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
         vaiTroAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spVaiTro.setAdapter(vaiTroAdapter);
 
+        // Spinner sinh viên
         ArrayList<String> dsSV = new ArrayList<>();
         dsSV.add("Không gán");
         dsSV.addAll(sinhVienDao.getDanhSachSpinner());
@@ -157,21 +163,25 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
                 maSv = sinhVienChon.split(" - ")[0];
             }
 
+            // Kiểm tra dữ liệu
             if (TextUtils.isEmpty(tenTaiKhoan) || TextUtils.isEmpty(matKhau)) {
                 Toast.makeText(this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // Không cho trùng tài khoản
             if (daoTaiKhoan.kiemTraTonTai(tenTaiKhoan)) {
                 Toast.makeText(this, "Tài khoản đã tồn tại", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // USER bắt buộc phải gán sinh viên
             if ("USER".equals(vaiTro) && maSv == null) {
                 Toast.makeText(this, "Tài khoản USER phải gán sinh viên", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // ADMIN thì không cần mã sinh viên
             if ("ADMIN".equals(vaiTro)) {
                 maSv = null;
             }
@@ -188,8 +198,10 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
         });
     }
 
+    // Hiển thị dialog sửa tài khoản
     private void showDialogSuaTaiKhoan(String tenTaiKhoan) {
         TaikhoanMatKhau tk = daoTaiKhoan.getTaiKhoan(tenTaiKhoan);
+
         if (tk == null) {
             Toast.makeText(this, "Không tìm thấy tài khoản", Toast.LENGTH_SHORT).show();
             return;
@@ -202,8 +214,9 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
         Spinner spVaiTro = view.findViewById(R.id.spVaiTro);
         Spinner spSinhVien = view.findViewById(R.id.spSinhVien);
 
+        // Đổ dữ liệu cũ lên form
         edtTenTaiKhoan.setText(tk.getTenTaiKhoan());
-        edtTenTaiKhoan.setEnabled(false);
+        edtTenTaiKhoan.setEnabled(false); // không cho sửa username
         edtMatKhau.setText(tk.getMatKhau());
 
         ArrayAdapter<String> vaiTroAdapter = new ArrayAdapter<>(
@@ -221,6 +234,7 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
         svAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spSinhVien.setAdapter(svAdapter);
 
+        // Chọn đúng sinh viên đang gán
         if (tk.getMaSv() == null) {
             spSinhVien.setSelection(0);
         } else {
@@ -284,8 +298,10 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
         });
     }
 
+    // Xóa tài khoản đang chọn
     private void xoaTaiKhoan() {
         boolean kq = daoTaiKhoan.xoaTaiKhoan(tenTaiKhoanChon);
+
         if (kq) {
             Toast.makeText(this, "Xóa thành công", Toast.LENGTH_SHORT).show();
             loadTaiKhoan();
@@ -294,8 +310,10 @@ public class QuanLyTaiKhoanActivity extends AppCompatActivity {
         }
     }
 
+    // Đặt lại mật khẩu tài khoản đang chọn về 123
     private void resetMatKhau() {
         boolean kq = daoTaiKhoan.doiMatKhau(tenTaiKhoanChon, "123");
+
         if (kq) {
             Toast.makeText(this, "Đặt lại mật khẩu thành 123", Toast.LENGTH_SHORT).show();
             loadTaiKhoan();
